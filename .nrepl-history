@@ -1,3 +1,25 @@
 (start-repl)
 (js/alert "Hello, ClojureScript")
 :cljs/quit
+(start-repl)
+js/window
+js/document
+js/console
+(js/console.log "Hello from CLJS!")
+(js/document.getElementById "loginForm")
+(.log js/console "Again...")
+(.getElementById js/document "email")
+(.-value (.getElementById js/document "email"))
+(set! (.value (.getElementById js/document "email")) "EMAILS!!!")
+(set! (.-value (.getElementById js/document "email")) "EMAILS!!!")
+(.-value (.getElementById js/document "email"))
+(doc defn)
+(source let)
+(require '[modern-cljs.login :as l] :reload)
+l/validate-form
+(source l/validate-form)
+(l/validate-form)
+l/validate-form
+(source l/validate-form)
+(l/validate-form)
+exit
