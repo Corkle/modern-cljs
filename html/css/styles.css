@@ -49,7 +49,7 @@ input {
 input:hover, input:focus {
 	border-color:#c5c5c5;
 	background:#f6f6f6;
-} 
+}
 fieldset {
 	border:1px solid #ddd;
 	padding:0 0.5em 0.5em;
@@ -128,6 +128,10 @@ input.default {
 .error {
 	color: #FF1400;
 }
+
+.help {
+  color: red;
+}
 /*
 :invalid {
 	color:red;
@@ -138,11 +142,11 @@ input[type=checkbox], input[type=radio] { visibility: hidden; width:0; height:0;
 input[type=checkbox] + label, input[type=radio] + label { padding-left:18px; }
 input[type=checkbox] + label{ background: url(../gfx/check_radio.png) 0 0 no-repeat; }
 input[type=checkbox]:focus + label{ background-position: 0 -16px; }
-input[type=checkbox] + label:hover{ background-position: 0 -32px; } 
+input[type=checkbox] + label:hover{ background-position: 0 -32px; }
 input[type=checkbox]:checked + label{ background-position: 0 -48px; }
 
 input[type=radio] + label{ background: url(../gfx/check_radio.png) 0 -64px no-repeat; }
 input[type=radio]:focus + label{ background-position: 0 -80px; }
-input[type=radio] + label:hover{ background-position: 0 -96px; } 
+input[type=radio] + label:hover{ background-position: 0 -96px; }
 input[type=radio]:checked + label{ background-position: 0 -112px; }
 */

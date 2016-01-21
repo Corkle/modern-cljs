@@ -49,3 +49,119 @@ s/calculate
 (.-onsubmit (by-id "loginForm"))
 exit
 (start-repl)
+(require '[modern-cljs.shopping :as shop] :reload
+'[domina.core :as dom] :reload
+'[domina.events :as evt] :reload)
+(doc evt/listen!)
+(apropos "capture")
+(by-id "calc")
+(:click (by-id "calc"))
+(dom/by-id "calc")
+(:click (dom/by-id "calc"))
+(evt/unlisten! (dom/by-id "calc") :click)
+(evt/get-listeners (dom/by-id "calc") :click)
+(evt/capture! (dom/by-id "calc") :click shop/calculate)
+exit
+(start-repl)
+(require '[modern-cljs.shopping :as shop] :reload
+                    '[domina.core :as dom] :reload
+                    '[domina.events :as evt] :reload)
+(doc dom/append!)
+(dom/append! (dom/by-id "shoppingForm") "<div class='help'>Click to calculate</div>")
+(evt/listen! (dom/by-id "calc") :mouseover
+(fn [] (dom/append! (dom/by-id "shoppingForm") "<div class='help'>Click to calculate</div>")))
+(dom/by-class "help")
+(dom/destroy! (dom/by-class "help"))
+(evt/listen! (dom/by-id "calc") :mouseout
+(fn [] (dom/destroy! (dom/by-class "help"))))
+(evt/listen! (dom/by-id "calc") :mouseover
+(evt/get-listeners (dom/by-id "calc") :click)
+exit
+(start-repl)
+(require '[modern-cljs.shopping :as shop] :reload
+                    '[domina.core :as dom] :reload
+                    '[domina.events :as evt] :reload)
+(evt/listen! (dom/by-id "calc")
+                        :mouseover
+                        (fn []
+                          (dom/append!
+                           (dom/by-id "shoppingForm")
+                           "<div class='help'>Click to calculate</div>")))
+(#object[Object [object Object]])
+(evt/listen! (dom/by-id "calc")
+                        :mouseover
+                        (fn []
+                          (dom/append!
+                           (dom/by-id "shoppingForm")
+                           "<div class='help'>Click to calculate</div>")))
+(evt/listen! (dom/by-id "calc")
+                        :mouseover
+                        (fn []
+                          (dom/append!
+                           (dom/by-id "shoppingForm")
+                           "<div class='help'>Click to calculate</div>")))
+(evt/listen! (dom/by-id "calc")
+                        :mouseover
+                        (fn []
+                          (dom/append!
+                           (dom/by-id "shoppingForm")
+                           "<div class='help'>Click to calculate</div>")))
+quit
+(start-repl)
+(require '[hiccups.runtime])
+(require-macros '[hiccups.core :refer [html])
+(require-macros '[hiccups.core :refer [html]])
+(html [:span {:class "foo"} "bar"])
+(html [:span.foo "bar"])
+(doc aget)
+quit
+(start-repl)
+(require '[modern-cljs.remotes :as r])
+quit
+(require '[modern-cljs.remotes :as r])
+(r/calculate 2 1.5 10 5)
+(r/calculate 1 1 0 0)
+(r/calculate 1 1 10 0)
+(r/calculate 1 1 10 5)
+1 1.5 0 0
+(r/calculate 1 1.5 0 0)
+(r/calculate 1 1.5 10 0)
+(r/calculate 3 1.5 10 0)
+(start-repl)
+(* 6 7)
+(* "6" "7")
+:cljs/quit
+(+ "1" "2")
+(start-repl)
+(require '[domina.core :as dom])
+(doc dom/attr)
+(dom/attr (dom/by-id "email") :pattern)
+(use 'valip.core 'valip.predicates)
+(validate {:email "you@yourdomain.com" :password "weak1"}
+                     [:email present? "Email can't be empty"]
+                     [:email email-address? "Invalid email format"]
+                     [:password present? "Password can't be empty"]
+                     [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+(validate {:email nil :password nil}
+                     [:email present? "Email can't be empty"]
+                     [:email email-address? "Invalid email format"]
+                     [:password present? "Password can't be empty"]
+                     [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+(start-repl)
+(require '[valip.core :refer [validate]]
+                    '[valip.predicates :refer [present? matches email-address?]])
+(present? nil)
+(validate {:email "you@yourdomain.com" :password "weak1"}
+                     [:email present? "Email can't be empty"]
+                     [:email email-address? "Invalid email format"]
+                     [:password present? "Password can't be empty"]
+                     [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+(require '[modern-cljs.login.validators :refer [user-credential-errors]])
+(user-credential-errors nil nil)
+(user-credential-errors "me@me.com" nil)
+:cljs/quit
+(use 'valip.predicates)
+(valid-email-domain? "me@me.com")
+(use 'valip.core)
+(validate {:email "me@me.com"} [:email valid-email-domain? "The domain does not exist!"])
+(validate {:email "me@google-nospam.com"} [:email valid-email-domain? "The domain does not exist!"])

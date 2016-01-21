@@ -1,5 +1,5 @@
 (set-env!
- :source-paths #{"src/cljs"}
+ :source-paths #{"src/cljc" "src/clj" "src/cljs"}
  :resource-paths #{"html"}
 
  :dependencies '[
@@ -13,6 +13,12 @@
                  [weasel "0.7.0"]
                  [org.clojure/tools.nrepl "0.2.12"]
                  [org.clojars.magomimmo/domina "2.0.0-SNAPSHOT"]
+                 [hiccups "0.3.0"]
+                 [compojure "1.4.0"]
+                 [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1"]
+                 [org.clojars.magomimmo/shoreleave-remote "0.3.1"]
+                 [javax.servlet/servlet-api "2.5"]
+                 [org.clojars.magomimmo/valip "0.4.0-SNAPSHOT"]
                  ])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
@@ -24,7 +30,9 @@
     "Launch Immediate Feedback Development Environment"
     []
     (comp
-        (serve :dir "target")
+        (serve :handler 'modern-cljs.remotes/app
+               :resource-root "target"
+               :reload true)
         (watch)
         (reload)
         (cljs-repl)
