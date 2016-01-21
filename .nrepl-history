@@ -23,3 +23,29 @@ l/validate-form
 (source l/validate-form)
 (l/validate-form)
 exit
+(start-repl)
+(require '[domina.core :refer [by-id value set-value!]])
+(doc by-id)
+(by-id "email")
+(require '[modern-cljs.login :refer [validate-form]])
+(start-repl)
+(require '[domina.core :refer [by-id value set-value!]])
+(require '[modern-cljs.login :refer [validate-form]])
+l/validate-form
+validate-form
+(set-value! (by-id "email") "Youremailsucks")
+(set-value! (by-id "password") "Youremailsucks")
+(validate-form)
+(value (by-id "quantity"))
+(require '[modern-cljs.shopping :as s] :reload)
+s/calculate
+(require '[modern-cljs.login :as l] :reload)
+(l/validate-form)
+(.-onsubmit (by-id "loginForm"))
+(.-onload js/window)
+(l/validate-form)
+(.-onsubmit (by-id "loginForm"))
+(l/init)
+(.-onsubmit (by-id "loginForm"))
+exit
+(start-repl)
