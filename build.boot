@@ -9,6 +9,7 @@
                  [pandeiro/boot-http "0.7.0"]
                  [adzerk/boot-reload "0.4.2"]
                  [adzerk/boot-cljs-repl "0.3.0"]
+                 [adzerk/boot-test "1.0.7"]
                  [com.cemerick/piggieback "0.2.1"]
                  [weasel "0.7.0"]
                  [org.clojure/tools.nrepl "0.2.12"]
@@ -19,18 +20,26 @@
                  [org.clojars.magomimmo/shoreleave-remote "0.3.1"]
                  [javax.servlet/servlet-api "2.5"]
                  [org.clojars.magomimmo/valip "0.4.0-SNAPSHOT"]
+                 [enlive "1.1.6"]
                  ])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
          '[adzerk.boot-reload :refer [reload]]
-         '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
+         '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
+         '[adzerk.boot-test :refer [test]])
+
+(deftask testing
+    "Add test/cljc for CLJ/CLJS testing purpose"
+    []
+    (set-env! :source-paths #(conj % "test/cljc"))
+    identity)
 
 (deftask dev
     "Launch Immediate Feedback Development Environment"
     []
     (comp
-        (serve :handler 'modern-cljs.remotes/app
+        (serve :handler 'modern-cljs.core/app
                :resource-root "target"
                :reload true)
         (watch)
