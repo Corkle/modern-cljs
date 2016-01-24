@@ -21,13 +21,15 @@
                  [javax.servlet/servlet-api "2.5"]
                  [org.clojars.magomimmo/valip "0.4.0-SNAPSHOT"]
                  [enlive "1.1.6"]
+                 [crisptrutski/boot-cljs-test "0.2.2-SNAPSHOT"]
                  ])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
          '[adzerk.boot-reload :refer [reload]]
          '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
-         '[adzerk.boot-test :refer [test]])
+         '[adzerk.boot-test :refer [test]]
+         '[crisptrutski.boot-cljs-test :refer [test-cljs]])
 
 (deftask testing
     "Add test/cljc for CLJ/CLJS testing purpose"
@@ -47,3 +49,13 @@
         (cljs-repl)
         (cljs)
         (target :dir #{"target"})))
+
+(deftask tdd
+  "Launch a TDD Environment"
+  []
+  (comp
+    (testing)
+    (watch)
+    (test-cljs :update-fs? true :js-env :phantom :namespaces '#{modern-cljs.shopping.validators-test})
+    (test :namespaces '#{modern-cljs.shopping.validators-test})
+    (target :dir #{"target"})))
