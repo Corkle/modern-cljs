@@ -31,11 +31,50 @@
          '[adzerk.boot-test :refer [test]]
          '[crisptrutski.boot-cljs-test :refer [test-cljs]])
 
-(deftask testing
-    "Add test/cljc for CLJ/CLJS testing purpose"
-    []
-    (set-env! :source-paths #(conj % "test/cljc"))
-    identity)
+(def defaults {:test-dirs #{"test/cljc" "test/clj" "test/cljs"}
+               :output-to "main.js"
+               :testbed :phantom
+               :namespaces '#{modern-cljs.shopping.validators-test
+                              modern-cljs.login.validators-test}})
+
+(deftask add-source-paths
+  "Add paths to :source-paths environment variable"
+  [t dirs PATH #{str} ":source-paths"]
+  (merge-env! :source-paths dirs)
+  identity)
+
+(deftask tdd
+  "Launch a TDD Environment"
+  [e testbed        ENGINE kw     "The JS testbed engine (default phantom)"
+   k httpkit               bool   "Use http-kit web server (default jetty)"
+   n namespaces     NS     #{sym} "the set of namespace symbols to run tests in"
+   o output-to      NAME   str    "The JS output file name for test (default main.js)"
+   O optimizations  LEVEL  kw     "The optimization level (default none)"
+   p port           PORT   int    "The web server port to listen on (default 3000)"
+   t dirs           PATH   #{str} "Test paths (default test/clj test/cljs test/cljc)"
+   v verbose               bool   "Print which files have changed (default false)"]
+  (let [dirs (or dirs (:test-dirs defaults))
+        output-to (or output-to (:output-to defaults))
+        testbed (or testbed (:testbed defaults))
+        namespaces (or namespaces (:namespaces defaults))]
+    (comp
+      (serve :handler 'modern-cljs.core/app
+             :resource-root "target"
+             :reload true
+             :httpkit httpkit
+             :port port)
+      (add-source-paths :dirs dirs)
+      (watch :verbose verbose)
+      (reload)
+      (cljs-repl)
+      (cljs)
+;;      (test-cljs :out-file output-to
+;;                 :js-env testbed
+;;                 :update-fs? true
+;;                 :namespaces namespaces
+;;                 :optimizations optimizations)
+      (test :namespaces namespaces)
+      (target :dir #{"target"}))))
 
 (deftask dev
     "Launch Immediate Feedback Development Environment"
@@ -49,13 +88,3 @@
         (cljs-repl)
         (cljs)
         (target :dir #{"target"})))
-
-(deftask tdd
-  "Launch a TDD Environment"
-  []
-  (comp
-    (testing)
-    (watch)
-    (test-cljs :update-fs? true :js-env :phantom :namespaces '#{modern-cljs.shopping.validators-test})
-    (test :namespaces '#{modern-cljs.shopping.validators-test})
-    (target :dir #{"target"})))

@@ -188,3 +188,25 @@ quit
 '[modern-cljs.shopping.validators-test])
 (t/run-tests 'modern-cljs.shopping.validators.test)
 (t/run-tests 'modern-cljs.shopping.validators-test)
+(require '[clojure.test :as t]
+                    '[modern-cljs.shopping.validators-test])
+(t/run-tests 'modern-cljs.shopping.validators-test)
+(start-repl)
+(set-env! :dependencies #(conj % '[hiccup "1.0.5"]))
+(require '[hiccup.core :refer [html]])
+(require '[net.cgrand.enlive-html :as e])
+(e/sniptest (html [:div [:label {:for "price"} "Price"]]))
+(e/sniptest (html [:div [:label {:for "price"} "Price"]]) [:label] (e/content "Price has to be a number"))
+(e/sniptest (html [:fieldset [:div [:label {:for "price"} "Price per Unit"]]
+                                        [:div [:label {:for "tax"} "Tax (%)"]]])
+                       [:label] (e/content "Price has to be a number"))
+(e/sniptest (html [:fieldset [:div [:label {:for "price"} "Price per Unit"]]
+                                        [:div [:label {:for "tax"} "Tax (%)"]]])
+(e/sniptest (html [:fieldset [:div [:label {:for "price"} "Price per Unit"]]
+                                        [:div [:label {:for "tax"} "Tax (%)"]]])
+                       [:label (e/attr= :for "price")]
+                       (e/content "Price has to be a number"))
+(e/sniptest (html [:fieldset [:div [:label {:for "price"} "Price per Unit"]]
+                                        [:div [:label {:for "tax"} "Tax (%)"]]])
+                       [[:label (e/attr= :for "price")]] (e/content "Price has to be a number"))
+(start-repl)

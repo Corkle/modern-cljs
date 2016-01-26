@@ -23,3 +23,10 @@
             ;; validate range
             [:quantity (gt 0) "Quantity can't be negative"]
             ))
+
+(defn validate-shopping-field [field value]
+  (case field
+    :quantity (first (:quantity (validate-shopping-form value "0" "0" "0")))
+    :price (first (:price (validate-shopping-form "0" value "0" "0")))
+    :tax (first (:tax (validate-shopping-form "0" "0" value "0")))
+    :discount (first (:discount (validate-shopping-form "0" "0" "0" value)))))
